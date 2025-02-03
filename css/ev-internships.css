@@ -3,10 +3,9 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    color: white;
     background-color: #1c1c1c;
-   
-   
+    color: #fff;
+    align-items: center;
 }
 
 main {
@@ -14,205 +13,67 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     padding-top: 20px;
-
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-        
-    }
-    
-    header {
-        background:#1c1c1c;
-        color: white;
-        padding: 20px 0;
-        text-align: center;
-    }
-    
-    .page-section {
-        display: none; /* All sections are hidden by default */
-        padding: 20px;
-       
-        border-radius: 5px;
-       
-    }
-    
-    #opportunities {
-        display: block; /* Show the opportunities section by default */
-    }
-    
-    .opportunity-container {
-        display: flex; /* Use flexbox to align items horizontally */
-        justify-content: center; /* Center the boxes */
-        flex-wrap: wrap; /* Allow boxes to wrap on smaller screens */
-    }
-    
-    .opportunity-box {
-        background: #202020;
-        border-radius: 15px;
-        padding: 15px;
-        margin-bottom: 40px;
-        width: 99%; /* Set width for boxes */
-        height: 425px;
-        text-align: center;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-
-        display: flex;
-        justify-content: center;  /* Horizontally center */
-        align-items: center;      /* Vertically center */
-        flex-direction: column; 
-    }
-    
-    button {
-        background: #35424a;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-    
-    button:hover {
-        background: #5a5a5a;
-    }
-    
 }
 
-/* Hero Section */
-.hero-section {
-    position: relative;
-    background: url('../image/courses_hero.jpg') no-repeat center center;
-    background-size: cover;
-    height: 400px;
-    color: white;
-    overflow: hidden;
-    border-radius: 15px; 
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.hero-section:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 10px #876eea;
-}
-
-/* Gradient Overlay */
-.hero-overlay {
-    position: absolute;
+.popup1, .popup2, .popup3 {
+    display: none;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.9) 50%, rgba(0, 0, 0, 0.2) 100%);
-    z-index: 1;
-}
-
-/* Hero Content */
-.hero-content {
-    position: absolute;
-    top: 50%;
-    left: 40px;
-    transform: translateY(-50%);
-    z-index: 2;
-    max-width: 700px;
-}
-
-/* Learning Outcomes */
-.learning-outcomes {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
-}
-
-.learning-outcomes li:before {
-    content: '✔';
-    position: absolute;
-    left: 0;
-    width: 1em;
-    height: 1em;
-}
-
-.learning-outcomes li {
-    position: relative;
-    padding-left: 1.5em;
-    margin-bottom: 10px;
-}
-
-.hero-content h1 {
-    font-size: 2.5em;
-    line-height: 1.2;
-    margin-bottom: 20px;
-}
-
-/* Contact Us Button */
-.contact-us {
-    background-color: #fff;
-    color: #000;
-    padding: 10px 20px;
-    border: #fff;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 15px;
-    transition: transform 0.1s ease, box-shadow 0.3s ease;
-}
-
-.contact-us:hover {
-    background-color: #876eea;
-    color: #fff;
-    transform: scale(1.05);
-}
-
-/* Pricing Section */
-.pricing-info {
-    background-color: #202020;
-    padding: 40px;
-    margin-bottom: 30px;
-    border-radius: 10px;
-    transition: transform 0.1s ease, box-shadow 0.3s ease
-}
-
-.pricing-info-container {
-    display: flex;
-    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.8); /* Optional: semi-transparent background */
+    justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
+    z-index: 10000;
 }
 
-.pricing-info:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 10px #876eea;
-}
-
-.course-image {
-    flex: 1;
-    margin-right: 20px;
-}
-
-.course-image img {
-    width: 100%;
+.popup-content {
+    position: relative;
+    width: 60%;
+    height: 100%;
     max-width: 500px;
+    background-color: #202020;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px; /* Optional: padding inside content */
+}
+
+.popup-content img {
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
 }
 
-.pricing-details {
-    flex: 2;
-}
-
-.pricing-details h2 {
-    font-size: 26px;
-    margin-bottom: 20px;
-}
-
-.pricing-details p {
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    color: #333;
+    border: none;
+    padding: 5px 10px;
     font-size: 16px;
-    line-height: 1.6;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
-/* Combined Course and Pricing Section */
-.course-info {
+.show-popup-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.show-popup-btn:hover {
+    background-color: #876eea;
+}
+
+/* Internships-info */
+.internships-objectives {
     position: relative;
     background: url('../image/course.png') no-repeat center center;
     background-size: cover;
@@ -223,8 +84,72 @@ main {
     transition: transform 0.1s ease, box-shadow 0.3s ease;
 }
 
+.internship-info {
+    position: relative;
+    background: url('../image/ihero2.png') no-repeat center center;
+    background-size: cover;
+    padding: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+.internship-details {
+    position: relative;
+    background: #202020;
+    background-size: cover;
+    padding: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+.internship-hero-info {
+    position: relative;
+    background: url('../image/internship_hero.jpg') no-repeat center center;
+    background-size: cover;
+    padding: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+.internship-info:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px #876eea;
+}
+
+.internship-details:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px #876eea;
+}
+
 /* Gradient Overlay */
-.course-info::before {
+.internship-info-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.3) 100%);
+    z-index: 1;
+    border-radius: 10px;
+}
+
+.internship-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0.8) 50%, rgba(0, 0, 0, 0) 100%);
+    z-index: 1;
+    border-radius: 10px;
+}
+
+/* Gradient Overlay */
+
+.internships-objectives::before {
     content: '';
     position: absolute;
     top: 0;
@@ -236,129 +161,119 @@ main {
     border-radius: 10px;
 }
 
-.course-pricing-info {
-    position: relative;
-    z-index: 2;
-    max-width: 800px;
-}
-
-.course-info:hover {
+.internships-objectives:hover {
     transform: scale(1.03);
     box-shadow: 0 0 10px #876eea;
 }
 
-.course-pricing-info h2 {
+
+.internship-info::before {
+    position: relative;
+    height: 400px;
+    color: white;
+    overflow: hidden;
+    border-radius: 15px; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: url('../image/internship_hero.jpg') no-repeat center center;
+}
+
+.internship-info:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 10px #876eea;
+}
+
+.internship-more-hero-info {
+    position: relative;
+    z-index: 2;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    margin-bottom: 10px;
+    padding-left: 25px;
+}
+
+
+.internship-more-info {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    text-align: left;
+    font-size: 16px;
+    color: white;
+    margin-bottom: 10px;
+    padding-left: 25px;
+}
+
+.internship-more-info h2 {
     font-size: 28px;
 }
 
-.course-pricing-info h3 {
+.internship-more-info h3 {
     font-size: 18px;
     margin-top: 24px;
 }
 
-.course-pricing-info p {
+.internship-more-info h4 {
     font-size: 16px;
     max-width: 600px;
+    margin-bottom: 8px;
+}
+
+.internship-more-info p {
+    font-size: 16px;
+    max-width: 600px;
+}
+
+.internship-more-info li:before {
+    content: '➱';
+    position: absolute;
+    left: 0;
+    color: #fff; 
 }
 
 .line-break-desktop {
     display: none;
 }
 
-/* Apply Button */
-.register-course {
+/* Apply Now Button */
+.fee-apply-now {
     background-color: #fff;
-    color: #000; 
+    color: #000;
     padding: 10px 20px;
-    border: #fff;
+    border: none;
     border-radius: 20px;
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
-    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
 }
 
-.register-course:hover {
+.fee-apply-now:hover {
     background-color: #876eea;
     color: #fff;
     transform: scale(1.05);
 }
 
-.pricing-learning-outcomes {
-    background-color: #202020;
-    border-radius: 10px;
-    transition: transform 0.1s ease, box-shadow 0.3s ease;
-}
 
-.pricing-learning-outcomes h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.pricing-learning-outcomes ul {
-    list-style-type: disc;
-    padding-left: 20px;
-}
-
-.pricing-learning-outcomes ul li {
-    font-size: 16px;
+.course-fee {
+    font-size: 28px;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 0px;
     margin-bottom: 10px;
 }
 
-/* Requirements Section */
-.requirements-section {
-    background-color: #202020;
-    padding: 40px;
-    margin-bottom: 30px;
-    border-radius: 10px;
-    transition: transform 0.1s ease, box-shadow 0.3s ease;
-}
-.requirements-section:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 10px #876eea;
-}
-
-.requirements-box h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.requirements-box ul {
-    list-style-type: disc;
-    padding-left: 20px;  
-}
-
-.requirements-box ul li {
+.gst-text {
     font-size: 16px;
-    margin-bottom: 10px;
-}
-
-/* Course Inclusions */
-.course-inclusions {
-    background-color: #202020;
-    padding: 40px;
-    margin-bottom: 30px;
-    border-radius: 10px;
-    transition: transform 0.1s ease, box-shadow 0.3s ease;
-}
-.course-inclusions:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 10px #876eea;
-}
-
-.inclusions-box h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.inclusions-box ul {
-    list-style-type: disc;
-    padding-left: 20px;
-}
-
-.inclusions-box ul li {
-    font-size: 16px;
-    margin-bottom: 10px;
+    color: #999;
+    margin-bottom: 8px;
 }
 
 /* Course Content */
@@ -415,69 +330,150 @@ main {
 .course-content td {
     background-color: #202020;
     color: #fff;
+    text-align: center;
 }
 
-/* Instructors Section */
-.instructors {
-    padding: 40px 0;
+.course-content dl, ol, ul {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    text-align: left;
 }
 
-.instructors h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.instructor-cards {
+/* Internship Section */
+.internship-section {
+    padding: 8px 0;
+    text-align: center;
+    margin: 0px auto;
     display: flex;
-    justify-content: space-between;
+    gap: 15px;
+    flex-direction: row;
 }
 
-.instructor-card {
-    background-color: #282828;
-    padding: 20px;
+/* Internship Box */
+.internship-box {
+    background-color: #202020;
+    width: 35%;
+    margin: 15px auto;
+    padding: 30px;
     border-radius: 10px;
     text-align: center;
-    width: 45%;
-    transition: transform 0.1s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.instructor-card:hover {
+
+.internship-box:hover {
     transform: scale(1.03);
     box-shadow: 0 0 10px #876eea;
 }
 
-.instructor-card img {
-    max-width: 100%;
-    border-radius: 50%;
-    margin-bottom: 15px;
+.internship-box h5 {
+    background-color: #876eea;
+    margin: auto;
+    width: 50%;
+    border-radius: 48px;
+    text-align: center;
+    font-weight: bold;
+    padding: 8px;
+    font-size: 16px;
 }
 
-.instructor-details h3 {
-    font-size: 20px;
+/* Course Fee Text */
+.internship-type {
+    font-size: 26px;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 16px;
     margin-bottom: 10px;
 }
 
-.instructor-details p {
-    font-size: 14px;
-    margin-bottom: 5px;
+/* Apply Now Button */
+.apply-now {
+    background-color: #fff;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    transition: transform 0.1s ease, box-shadow 0.3s ease;
+}
+
+.apply-now:hover {
+    background-color: #876eea;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Internship-add-inf List */
+.internship-add-inf {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.internship-add-inf {
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 25px;
+}
+
+.internship-add-inf li:before {
+    content: '➱';
+    position: absolute;
+    left: 0;
+    color: #876eea; 
 }
 
 /* Responsive Styles */
 @media screen and (max-width: 768px) {
-    .hero-section {
+    .internships-objectives {
         flex-direction: column;
         height: 575px;
     }
 
-    .hero-content, .hero-image {
-        padding-top: 20px;
-        padding-right: 10px;
+    .internship-section {
+        display: flex;
+        flex-direction: column;
     }
+
+    .internship-box {
+        margin-bottom: 18px;
+    }
+
 
     .hero-content h1 {
         font-size: 2em;
     }
 
-    .course-info {
+    .internship-box  {
+        width: 100%;
+    }
+
+    .popup1, .popup2, .popup3 {
+        width: 100%;
+        height: 100%;
+    }
+
+    .popup-content {
+        width: 80%;
+        height: 70%;
+    }
+
+    .internship-info {
+        background: url('../image/ihero1.jpg') no-repeat center center;
+        background-size: cover;
+    }
+
+    .internship-hero-overlay {
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%);
+
+    }
+
+    .internships-objectives {
         position: relative;
         background: url('../image/course_m.png') no-repeat center center;
         background-size: cover;
@@ -494,30 +490,6 @@ main {
 
     .line-break-mobile {
         display: none;
-    }
-
-    .pricing-info-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .course-image {
-        margin-bottom: 20px;
-        margin-right: 0;
-    }
-
-    .price, .learning-outcomes {
-        max-width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .instructor-cards {
-        flex-direction: column;
-    }
-
-    .instructor-card {
-        width: 100%;
-        margin-bottom: 20px;
     }
 
     .course-content table {
