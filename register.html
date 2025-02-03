@@ -1,299 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Form - VisionAstraa Startup Academy</title>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2PV0BKLV94"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
 
-    gtag('config', 'G-2PV0BKLV94');
-    </script>
-    <style>
-        body, html {
-            font-family: Arial, sans-serif;
-            background-color: #1c1c1c; 
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: auto; 
-            color: #ffffff;
-        }
-        
-        .form-container {
-            position: relative; 
-            background-color: rgba(32, 32, 32, 0.8); 
-            background-image: url('image/ev-home2-bg2.png');
-            background-size: cover; 
-            background-position: center; 
-            background-repeat: no-repeat; 
-            padding: 20px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 800px;
-            margin: 20px auto;
-            overflow-y: auto;
-        }
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
 
-        .form-container h1,
-        .form-container h2,
-        .form-container label,
-        .form-container input,
-        .form-container select,
-        .form-container textarea,
-        .form-container button {
-            position: relative; 
-            z-index: 2; 
-        }
+  <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyDTqlQiKyEasLlEL4fQKhmL62F3o7hsBCc",
+        authDomain: "visionastraa-website.firebaseapp.com",
+        projectId: "visionastraa-website",
+        storageBucket: "visionastraa-website.firebasestorage.app",
+        messagingSenderId: "100641652232",
+        appId: "1:100641652232:web:62a4288705be2b1f259bbd",
+        measurementId: "G-RR519GVBWS"
+    };
 
-        .form-container h1 {
-            text-align: center;
-            color: #fff;
-            margin-top: 0;
-        }
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
 
-        .form-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #fff;
-        }
+    function submitForm(event) {
+      event.preventDefault();
 
-        .form-container label {
-            display: block;
-            color: #fff;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-        .form-container input[type="text"],
-        .form-container input[type="email"],
-        .form-container input[type="tel"],
-        .form-container input[type="file"],
-        .form-container select,
-        .form-container textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            color: #000;
-            background-color: #fff;
-            border: 1px solid #fff;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          
+          user.sendEmailVerification()
+            .then(() => {
+              alert("Verification email sent. Please verify your email.");
+              saveUserData(user);
+            })
+            .catch((error) => console.error("Email verification error:", error));
+        })
+        .catch((error) => console.error("Registration error:", error));
+    }
 
-        .form-container textarea {
-            resize: vertical;
-        }
+    function saveUserData(user) {
+      const formData = new FormData(document.getElementById("registerForm"));
+      formData.append("uid", user.uid);
 
-        .form-container button {
-            width: 100%;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 20px;
-            color: black;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
+      fetch("php/account-register.php", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert("Registration successful!");
+        } else {
+          alert("Registration failed: " + data.error);
         }
+      })
+      .catch((error) => console.error("Data submission error:", error));
+    }
+  </script>
+  <style>
+    body, html {
+        font-family: Arial, sans-serif;
+        background-color: #1c1c1c; 
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: auto; 
+        color: #ffffff;
+    }
+    
+    .form-container {
+        position: relative; 
+        background-color: rgba(32, 32, 32, 0.8); 
+        background-image: url('image/ev-home2-bg2.png');
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        padding: 20px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 800px;
+        margin: 20px auto;
+        overflow-y: auto;
+    }
 
-        .form-container button:hover {
-            background-color: #5642a3;
-            color: #fff;
-        }
+    .form-container h1,
+    .form-container h2,
+    .form-container label,
+    .form-container input,
+    .form-container select,
+    .form-container textarea,
+    .form-container button {
+        position: relative; 
+        z-index: 2; 
+    }
 
-        .navigate-button {
-            background-color: #007bff;
-            margin-top: 10px;
-            width: 100%;
-            padding: 10px;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            text-align: center;
-        }
+    .form-container h1 {
+        text-align: center;
+        color: #fff;
+        margin-top: 0;
+    }
 
-        .navigate-button:hover {
-            background-color: #0069d9;
-        }
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #fff;
+    }
 
-        .message {
-            margin-top: 20px;
-            font-size: 16px;
-            text-align: center;
-        }
+    .form-container label {
+        display: block;
+        color: #fff;
+        margin-bottom: 8px;
+        font-weight: bold;
+    }
 
-        .job-section {
-            padding: 20px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 800px;
-            margin: 20px auto;
-            color: #ffffff;
-        }
+    .form-container input[type="text"],
+    .form-container input[type="email"],
+    .form-container input[type="tel"],
+    .form-container input[type="password"],
+    .form-container input[type="file"],
+    .form-container select,
+    .form-container textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #fff;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
 
-        .job-section h1, 
-        .job-section h2, 
-        .job-section p, 
-        .job-section ul, 
-        .job-section li {
-            color: #ffffff; 
-        }
-        .link {
-            color: #0062ca;
-            text-decoration: underline;
-        }
-        .link:hover {
-            text-decoration: underline;
-        }
-    </style>
+    .form-container textarea {
+        resize: vertical;
+    }
+
+    .form-container button {
+        width: 100%;
+        padding: 10px;
+        background-color: #fff;
+        border-radius: 20px;
+        color: black;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .form-container button:hover {
+        background-color: #5642a3;
+        color: #fff;
+    }
+
+    .navigate-button {
+        background-color: #007bff;
+        margin-top: 10px;
+        width: 100%;
+        padding: 10px;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .navigate-button:hover {
+        background-color: #0069d9;
+    }
+
+    .message {
+        margin-top: 20px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .job-section {
+        padding: 20px;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 800px;
+        margin: 20px auto;
+        color: #ffffff;
+    }
+
+    .job-section h1, 
+    .job-section h2, 
+    .job-section p, 
+    .job-section ul, 
+    .job-section li {
+        color: #ffffff; 
+    }
+    .link {
+        color: #0062ca;
+        text-decoration: underline;
+    }
+    .link:hover {
+        text-decoration: underline;
+    }
+</style>
 </head>
 <body>
     <header id="navbar-placeholder"></header>
+  <div class="form-container">
+    <h1>Register</h1>
+    <form id="registerForm" onsubmit="submitForm(event)" enctype="multipart/form-data">
+        <label for="full_name">Full Name (as per government ID):</label>
+        <input type="text" id="full_name" name="full_name" pattern="[A-Za-z\s]+" title="Please enter only letters." required><br>
 
-    <div class="form-container">
-        <h1>Job Opportunities in EV Startup</h1>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
 
-        <div class="job-section">
-            <p>VisionAstraa Startup Academy is hiring students from EEE/ECE/Mech branches who have graduated with B.Tech/M.Tech degrees for the following positions:</p>
-            <h2><strong>Openings for Immediate joiners (Graduated 2023 or 2024)</strong></h2>
-            <ul>
-                <li>1.Embedded Systems Engineer (L1: Entry-Level) (ECE)</li>
-                <li>2.Power Electronics Engineer (L1: Entry-Level) (EEE)</li>
-                <li>3.Battery Management System (BMS) Engineer (L1: Entry-Level) (EEE/ECE)</li>
-                <li>4.Powertrain Mechanical Engineer (L1: Entry-Level) (Mech)</li>
-                <li>5.Thermal Systems Engineer (L1: Entry-Level) (Mech)</li>
-            </ul>
-            <p><strong>Location: Bengaluru (Offline)</strong></p>
-                
-            <h3><strong>Interview Process:</strong></h3>
-            <ul>
-                <li>Round 1: Online written test</li>
-                <li>Round 2: Technical Interview</li>
-                <li>Round 3: HR Interview</li>
-            </ul>
-    
-            <p><strong>Salary Range: ~INR 6 LPA</strong></p>
-    
-            <h3><strong>Who Can Apply:</strong></h3>
-            <ul>
-                <li>B.Tech/M.Tech graduates from ECE/EEE/Mech/Automobile/Mechatronics with 0-3+ years of experience (CGPA >8.0 preferred).</li>
-                <li>Keen interest in working in the Electric Vehicle Industry.</li>
-                <li>Motivated to learn & innovate in key EV technologies.</li>
-                <li>Ability to work both independently and in a team.</li>
-            </ul>
-    
-            <p><strong>Note:</strong> Only 1 application is allowed per candidate. <br>Candidates should apply for only 1 job role.</p>
-            
-            <p><strong>Connect with us on LinkedIn -</strong></p>
-            <p><a href="https://www.linkedin.com/company/visionastraa" class="link">VisionAstraa Startup Academy</a><br><a href="https://in.linkedin.com/in/nikhiljaincs" class="link">Nikhil Jain C S</a></p>
-            <p>(Follow & Message on LinkedIn for any questions)</p>
-    
-            <p>We are an equal opportunity employer and value diversity at our company. We do not discriminate on the basis of race, religion, color, national origin, gender, sexual orientation, age, marital status, veteran status, or disability status.</p>
-        </div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
 
-        <form id="applicationForm" onsubmit="submitForm(event);" enctype="multipart/form-data">
-            
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number." required><br>
 
-            <label for="full_name">Full Name (as per government ID)</label>
-            <input type="text" id="full_name" name="full_name" pattern="[A-Za-z\s]+" title="Please enter only letters." required>
+        <label for="which_role_are_you_applying_for">Which Role are you applying for?</label>
+        <select id="role" name="role" required>
+            <option value="">Choose</option>
+            <option value="embedded_systems_engineer">Embedded Systems Engineer (L1)</option>
+            <option value="power_electronics_engineer">Power Electronics Engineer (L1)</option>
+            <option value="battery_management_system_engineer"> Battery Management System (BMS) Engineer (L1)</option>
+            <option value="powertrain_mechanical_engineer">Powertrain Mechanical Engineer (L1)</option>
+            <option value="thermal_systems_engineer">Thermal Systems Engineer (L1)</option>
+        </select><br>
 
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" title="Please enter a valid 10-digit phone number." required>
+        <label for="state">State:</label>
+        <select id="state" name="state" onchange="populateColleges()" required>
+            <option value="">Select State</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Daman and Diu">Daman and Diu</option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Puducherry">Puducherry</option>
+        </select><br>
 
-            <label for="which_role_are_you_applying_for">Which Role are you applying for?</label>
-            <select id="role" name="Choose" onchange="Choose()" required>
-                <option value="">Choose</option>
-                <option value="embedded_systems_engineer">Embedded Systems Engineer (L1)</option>
-                <option value="power_electronics_engineer">Power Electronics Engineer (L1)</option>
-                <option value="battery_management_system_engineer"> Battery Management System (BMS) Engineer (L1)</option>
-                <option value="powertrain_mechanical_engineer">Powertrain Mechanical Engineer (L1)</option>
-                <option value="thermal_systems_engineer">Thermal Systems Engineer (L1)</option>               
-            </select>
+        <label for="college">College:</label>
+        <select id="college" name="college" required>
+            <option value="">Select College</option>
+        </select><br>
 
-            <label for="state">State</label>
-            <select id="state" name="state" onchange="populateColleges()" required>
-                <option value="">Select State</option>
-                <option value="Andhra Pradesh">Andhra Pradesh</option>
-                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                <option value="Assam">Assam</option>
-                <option value="Bihar">Bihar</option>
-                <option value="Chhattisgarh">Chhattisgarh</option>
-                <option value="Goa">Goa</option>
-                <option value="Gujarat">Gujarat</option>
-                <option value="Haryana">Haryana</option>
-                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                <option value="Jharkhand">Jharkhand</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Kerala">Kerala</option>
-                <option value="Madhya Pradesh">Madhya Pradesh</option>
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Manipur">Manipur</option>
-                <option value="Meghalaya">Meghalaya</option>
-                <option value="Mizoram">Mizoram</option>
-                <option value="Nagaland">Nagaland</option>
-                <option value="Odisha">Odisha</option>
-                <option value="Punjab">Punjab</option>
-                <option value="Rajasthan">Rajasthan</option>
-                <option value="Sikkim">Sikkim</option>
-                <option value="Tamil Nadu">Tamil Nadu</option>
-                <option value="Telangana">Telangana</option>
-                <option value="Tripura">Tripura</option>
-                <option value="Uttar Pradesh">Uttar Pradesh</option>
-                <option value="Uttarakhand">Uttarakhand</option>
-                <option value="West Bengal">West Bengal</option>
-                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                <option value="Chandigarh">Chandigarh</option>
-                <option value="Daman and Diu">Daman and Diu</option>
-                <option value="Lakshadweep">Lakshadweep</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Puducherry">Puducherry</option>
-            </select>
+        <label for="degree">Degree:</label>
+        <select id="degree" name="degree" required>
+            <option value="Select Option">Select Option</option>
+            <option value="B.E">B.E</option>
+            <option value="B.Tech">B.Tech</option>
+            <option value="M.Tech">M.Tech</option>
+        </select><br>
 
-            <label for="college">College</label>
-            <select id="college" name="college" required>
-                <option value="">Select College</option>
-            </select>
+        <label for="specialization">Specialization (Branch):</label>
+        <input type="text" id="specialization" name="specialization" required><br>
 
-            <label for="degree">Degree</label>
-            <select id="degree" name="degree" required>
-                <option value="Select Option">Select Option</option>
-                <option value="B.E">B.E</option>
-                <option value="B.Tech">B.Tech</option>
-                <option value="M.Tech">M.Tech</option>
-            </select>
+        <label for="graduation">Year of Graduation:</label>
+        <input type="text" id="graduation" name="graduation" pattern="\d{4}" title="Please enter a valid year." required><br>
 
-            <label for="specialization">Specialization (Branch)</label>
-            <input type="text" id="specialization" name="specialization" required>
+        <label for="resume">Upload Resume (PDF format, maximum size 2MB):</label>
+        <input type="file" id="resume" name="resume" accept=".pdf" required><br>
 
-            <label for="graduation">Year of Graduation</label>
-            <input type="text" id="graduation" name="graduation" pattern="\d{4}" title="Please enter a valid year." required>
+        <label for="linkedin_profile_link">LinkedIn Profile Link:</label>
+        <input type="text" id="linkedin_profile_link" name="linkedin_profile_link" 
+            required title="Please enter a valid LinkedIn profile link"><br>
 
-            <label for="resume">Upload Resume (PDF format, maximum size 2MB)</label>
-            <input type="file" id="resume" name="resume" accept=".pdf" required>
+        <label for="Description">Describe in your own words why you should be selected for the above role:</label>
+        <textarea id="Description" name="description" rows="5" cols="100" required 
+            title="Enter your description here"></textarea><br>
 
-            <label for="linkedin_profile_link">LinkedIn Profile Link</label>
-            <input type="text" id="linkedin_profile_link" name="linkedin_profile_link" 
-                required title="Please enter a valid LinkedIn profile link">
-
-            <label for="Description">Describe in your own words why you should be selected for the above role</label>
-            <textarea id="Description" name="description" rows="5" cols="100" required 
-                oninput="checkInput()" title="Enter your description here"></textarea>
-
-            <button type="submit">Submit Application</button>
-            <p class="message" id="message"></p>
-        </form>
-    </div>
-
-    <script>
-        const collegesByState = {
+        <button type="submit">Register</button>
+    </form>
+    <p>Have an account? <a href="login.html">Login here</a>.</p>
+</body>
+<script>
+    const collegesByState = {
             "Andhra Pradesh": [
                 "A.M.REDDY MEMORIAL COLLEGE OF ENGINEERING& TECHNOLOGY",
                 "A1 GLOBAL INSTITUTE OF ENGINEERING & TECHNOLOGY",
@@ -3255,67 +3266,5 @@
                 });
             }
         }
-
-        function validateForm() {
-            const resumeInput = document.getElementById('resume');
-            const file = resumeInput.files[0];
-
-            if (file) {
-                const fileSizeInMB = file.size / (1024 * 1024);
-                const fileType = file.type;
-
-                if (fileType !== 'application/pdf') {
-                    alert('Please upload the resume in PDF format only.');
-                    return false;
-                }
-
-                if (fileSizeInMB > 2) {
-                    alert('The resume file size should not exceed 2MB.');
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        function submitForm(event) {
-            event.preventDefault();
-
-            if (!validateForm()) {
-                return;
-            }
-
-            const form = document.getElementById('applicationForm');
-            const formData = new FormData(form);
-
-            fetch('php/submit-vsa-job-application.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                console.log(response); 
-                return response.json();
-            })
-            .then(data => {
-                console.log(data);
-                const messageDiv = document.getElementById('message');
-                if (data.success) {
-                    messageDiv.textContent = "Your application has been submitted successfully!";
-                    messageDiv.style.color = "green";
-                    window.location.href = "vsa-job-application-confirmation.html";
-                    form.reset();
-                } else {
-                    messageDiv.textContent = "Error: " + data.error;
-                    messageDiv.style.color = "red";
-                }
-            })
-            .catch(error => {
-                const messageDiv = document.getElementById('message');
-                console.error(error);
-                messageDiv.textContent = "There was an error submitting the form.";
-                messageDiv.style.color = "red";
-            });
-        }
-
-    </script>
-</body>
+</script>
 </html>
